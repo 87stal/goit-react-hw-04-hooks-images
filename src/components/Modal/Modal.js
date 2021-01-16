@@ -9,13 +9,13 @@ function Modal({ onClose, children } ) {
         onClose();
       }
     });
-    return (()=>
+    return ()=>
       window.removeEventListener('keydown', e => {
         if (e.code === 'Escape') {
           onClose();
         }
     }
-  ),[]);
+  ,[]);
   });
 
   return (
