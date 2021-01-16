@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "e0ee6f016be26ccff96283670c6edfee",
+    "revision": "3fcbbb1d4f40dfaeedc1689680bcb860",
     "url": "/goit-react-hw-04-hooks-images/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/goit-react-hw-04-hooks-images/static/css/2.f87e9f44.chunk.css"
   },
   {
-    "revision": "8e86feead99af5ef6579",
+    "revision": "e87f8eccebe2b75a4e33",
     "url": "/goit-react-hw-04-hooks-images/static/css/main.7c6538c4.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/goit-react-hw-04-hooks-images/static/js/2.2f5b4b20.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "8e86feead99af5ef6579",
-    "url": "/goit-react-hw-04-hooks-images/static/js/main.5adac7e5.chunk.js"
+    "revision": "e87f8eccebe2b75a4e33",
+    "url": "/goit-react-hw-04-hooks-images/static/js/main.f0e7977c.chunk.js"
   },
   {
     "revision": "cc4c0cfdf041d2830f24",
