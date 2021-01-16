@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 
-import Searchbar from './components/Searchbar/Searchbar';
-import Loader from './components/Loader/Loader';
-import Button from './components/Button/Button';
-import ImageGallery from './components/ImageGallery/ImageGallery';
-import Modal from './components/Modal/Modal';
-import ImageModal from './components/ImageModal/ImageModal';
+import Searchbar from '../Searchbar/Searchbar';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import Loader from 'react-loader-spinner';
+import Button from '../Button/Button';
+import ImageGallery from '../ImageGallery/ImageGallery';
+import Modal from '../Modal/Modal';
+import ImageModal from '../ImageModal/ImageModal';
 
-import imagesApi from './services/api';
+import imagesApi from '../../services/api';
 
 export default function App() {
   const [images, setImages] = useState([]);
@@ -17,9 +18,10 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [page, setPage] = useState(0);
   const [largeImage, setLargeImage] = useState(null);
+  const [arePicturseOver, setArePicturseOver] = useState(false);
 
   useEffect(() => {
-    fetchImages();
+    if (searchQuery !== '') fetchImages();
   }, [searchQuery]);
 
   useEffect(() => {
@@ -27,13 +29,15 @@ export default function App() {
   }, [images]);
 
   const fetchImages = () => {
-    if (searchQuery !== '') setIsLoading(true);
+    setIsLoading(true);
+    setArePicturseOver(false);
     imagesApi
       .FetchImagesWithQuery(searchQuery, page)
       .then(images => {
-        console.log(images);
-        setImages(prevImages => [...prevImages, ...images]);
+        console.log(images.hits);
+        setImages(prevImages => [...prevImages, ...images.hits]);
         setPage(page + 1);
+        pictursOver(images.totalHits, page);
       })
       .catch(error => {
         setError(error);
@@ -46,26 +50,33 @@ export default function App() {
     setImages([]);
   };
 
-  const toggleModal = () => {
+  const closeModal = () => {
     setLargeImage(null);
   };
 
-  const setlargeImage = url => {
+  const openModal = url => {
     setLargeImage(url);
   };
-  
+
+  const pictursOver = (totalImages, page) => {
+    const lastPage = Math.ceil(totalImages / 12);
+    if (page === lastPage) {
+      setArePicturseOver(true);
+    }
+  };
   const scroll = () => {
     window.scrollTo({
       top: document.documentElement.scrollHeight,
       behavior: 'smooth',
     });
   };
+
   return (
     <>
       <Searchbar onSubmit={handlerSearchFormSubmit} />
 
       {images.length > 0 && (
-        <ImageGallery images={images} onSetImageLarge={setlargeImage} />
+        <ImageGallery images={images} onSetImageLarge={openModal} />
       )}
       {isLoading && (
         <Loader
@@ -76,9 +87,12 @@ export default function App() {
           timeout={3000}
         />
       )}
-      {images.length > 0 && <Button fetchImages={fetchImages} />}
+      {images.length > 0 && !isLoading && !arePicturseOver && (
+        <Button fetchImages={fetchImages} />
+      )}
+
       {largeImage && (
-        <Modal onClose={toggleModal}>
+        <Modal onClose={closeModal}>
           <ImageModal largeImage={largeImage} />
         </Modal>
       )}

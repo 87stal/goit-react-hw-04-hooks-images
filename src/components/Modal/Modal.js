@@ -9,6 +9,13 @@ function Modal({ onClose, children } ) {
         onClose();
       }
     });
+    return (()=>
+      window.removeEventListener('keydown', e => {
+        if (e.code === 'Escape') {
+          onClose();
+        }
+    }
+  ),[]);
   });
 
   return (
@@ -20,5 +27,6 @@ function Modal({ onClose, children } ) {
 
 Modal.propTypes = {
   onClose: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
 };
 export default Modal;
