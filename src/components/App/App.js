@@ -34,7 +34,6 @@ export default function App() {
     imagesApi
       .FetchImagesWithQuery(searchQuery, page)
       .then(images => {
-        console.log(images.hits);
         setImages(prevImages => [...prevImages, ...images.hits]);
         setPage(page + 1);
         pictursOver(images.totalHits, page);
