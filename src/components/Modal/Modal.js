@@ -2,21 +2,17 @@ import React, { useEffect } from 'react';
 import styles from './Modal.module.css';
 import PropTypes from 'prop-types';
 
-function Modal({ onClose, children } ) {
-  useEffect(() => {
-    window.addEventListener('keydown', e => {
-      if (e.code === 'Escape') {
-        onClose();
-      }
-    });
-    return ()=>
-      window.removeEventListener('keydown', e => {
-        if (e.code === 'Escape') {
-          onClose();
-        }
+function Modal({ onClose, children }) {
+  const eventAction = e => {
+    if (e.code === 'Escape') {
+      onClose();
     }
-  ,[]);
-  });
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', eventAction);
+    return () => window.removeEventListener('keydown', eventAction);
+  }, []);
 
   return (
     <div className={styles.Overlay}>
